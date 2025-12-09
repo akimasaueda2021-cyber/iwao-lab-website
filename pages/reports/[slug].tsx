@@ -1,4 +1,5 @@
 import type { GetStaticPaths, GetStaticProps, NextPage } from "next";
+import Head from "next/head";
 import Link from "next/link";
 import { format } from "date-fns";
 import { ja } from "date-fns/locale";
@@ -31,7 +32,28 @@ const ReportDetail: NextPage<Props> = ({ report, allReports }) => {
   );
 
   return (
-    <Layout>
+    <>
+      <Head>
+        <title>{report.title} | 岩尾俊兵研究会</title>
+        <meta
+          name="description"
+          content={report.summary || `${report.title} - 岩尾俊兵研究会の活動報告`}
+        />
+        <meta name="keywords" content={report.tags.join(", ")} />
+        <meta property="og:title" content={`${report.title} | 岩尾俊兵研究会`} />
+        <meta
+          property="og:description"
+          content={report.summary || `${report.title} - 岩尾俊兵研究会の活動報告`}
+        />
+        <meta property="og:type" content="article" />
+        <meta property="article:published_time" content={report.publishedAt} />
+        <meta property="article:author" content="岩尾俊兵研究会" />
+        {report.thumbnailUrl && (
+          <meta property="og:image" content={report.thumbnailUrl} />
+        )}
+        <link rel="canonical" href={`https://iwao-lab-website.vercel.app/reports/${report.slug}`} />
+      </Head>
+      <Layout>
       <section className="section section-dark">
         <SectionTitle title="活動報告" />
         <div className="article-layout">
@@ -99,6 +121,7 @@ const ReportDetail: NextPage<Props> = ({ report, allReports }) => {
         </div>
       </section>
     </Layout>
+    </>
   );
 };
 

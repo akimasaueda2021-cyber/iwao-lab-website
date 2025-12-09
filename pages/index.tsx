@@ -1,4 +1,5 @@
 import type { GetStaticProps, NextPage } from "next";
+import Head from "next/head";
 import Layout from "../components/Layout";
 import HeroWithGemini from "../components/HeroWithGemini";
 import SectionTitle from "../components/SectionTitle";
@@ -12,7 +13,25 @@ type Props = {
 
 const Home: NextPage<Props> = ({ latestReports }) => {
   return (
-    <Layout>
+    <>
+      <Head>
+        <title>岩尾俊兵研究会 / SHUMPEI IWAO Seminar Lab | 慶應義塾大学商学部</title>
+        <meta
+          name="description"
+          content="慶應義塾大学商学部 岩尾俊兵研究会の公式サイト。アカデミアと実践を往復しながら、価値創造に挑む。研究テーマ、活動報告、ゼミ紹介などを掲載。"
+        />
+        <meta name="keywords" content="岩尾俊兵,岩尾研究会,慶應義塾大学,商学部,ゼミ,研究会,Operation Management,Innovation,Business Model" />
+        <meta property="og:title" content="岩尾俊兵研究会 / SHUMPEI IWAO Seminar Lab" />
+        <meta
+          property="og:description"
+          content="アカデミアと実践を往復しながら、価値創造に挑む。慶應義塾大学商学部 岩尾俊兵研究会の公式サイト。"
+        />
+        <meta property="og:type" content="website" />
+        <meta property="og:site_name" content="岩尾俊兵研究会" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <link rel="canonical" href="https://iwao-lab-website.vercel.app/" />
+      </Head>
+      <Layout>
       <HeroWithGemini
         title="岩尾俊兵研究会 / SHUMPEI IWAO Seminar Lab"
         subtitle="アカデミアと実践を往復しながら、価値創造に挑む"
@@ -44,6 +63,7 @@ const Home: NextPage<Props> = ({ latestReports }) => {
         </p>
       </section>
     </Layout>
+    </>
   );
 };
 

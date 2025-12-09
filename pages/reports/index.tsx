@@ -1,4 +1,5 @@
 import type { GetStaticProps, NextPage } from "next";
+import Head from "next/head";
 import { useMemo, useState } from "react";
 import Layout from "../../components/Layout";
 import SectionTitle from "../../components/SectionTitle";
@@ -58,7 +59,22 @@ const ReportsIndex: NextPage<Props> = ({ reports, categories, years }) => {
   };
 
   return (
-    <Layout>
+    <>
+      <Head>
+        <title>活動報告 | 岩尾俊兵研究会</title>
+        <meta
+          name="description"
+          content="岩尾俊兵研究会の活動報告。イベント・研究発表・メディア掲載などの活動を、プレスリリース形式でお届けします。"
+        />
+        <meta property="og:title" content="活動報告 | 岩尾俊兵研究会" />
+        <meta
+          property="og:description"
+          content="イベント・研究発表・メディア掲載などの活動を、プレスリリース形式でお届けします。"
+        />
+        <meta property="og:type" content="website" />
+        <link rel="canonical" href="https://iwao-lab-website.vercel.app/reports" />
+      </Head>
+      <Layout>
       <section className="section section-dark">
         <SectionTitle
           title="活動報告"
@@ -105,6 +121,7 @@ const ReportsIndex: NextPage<Props> = ({ reports, categories, years }) => {
         </div>
       </section>
     </Layout>
+    </>
   );
 };
 

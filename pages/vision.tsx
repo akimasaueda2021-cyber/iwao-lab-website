@@ -1,6 +1,7 @@
 "use client";
 
 import type { NextPage } from "next";
+import Head from "next/head";
 import Layout from "../components/Layout";
 import SectionTitle from "../components/SectionTitle";
 import { ShootingStars } from "../components/ui/ShootingStars";
@@ -9,7 +10,22 @@ import { Meteors } from "../components/ui/Meteors";
 
 const Vision: NextPage = () => {
   return (
-    <Layout>
+    <>
+      <Head>
+        <title>Vision & Mind | 岩尾俊兵研究会</title>
+        <meta
+          name="description"
+          content="岩尾俊兵研究会のVision & Mind。経営学の力によって価値創造を行い、世の不合理をなくす。研究と実践を往復しながら、日本発の新しい事業創出の土壌を耕す。"
+        />
+        <meta property="og:title" content="Vision & Mind | 岩尾俊兵研究会" />
+        <meta
+          property="og:description"
+          content="経営学の力によって価値創造を行い、世の不合理をなくす。研究と実践を往復しながら、日本発の新しい事業創出の土壌を耕す。"
+        />
+        <meta property="og:type" content="website" />
+        <link rel="canonical" href="https://iwao-lab-website.vercel.app/vision" />
+      </Head>
+      <Layout>
       <div
         style={{
           minHeight: "40rem",
@@ -173,6 +189,7 @@ const Vision: NextPage = () => {
         </div>
       </section>
     </Layout>
+    </>
   );
 };
 

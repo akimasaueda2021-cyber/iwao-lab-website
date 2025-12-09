@@ -1,6 +1,7 @@
 "use client";
 
 import type { NextPage } from "next";
+import Head from "next/head";
 import Layout from "../components/Layout";
 import SectionTitle from "../components/SectionTitle";
 import { CardHoverEffect } from "../components/ui/CardHoverEffect";
@@ -44,7 +45,22 @@ const About: NextPage = () => {
   ];
 
   return (
-    <Layout>
+    <>
+      <Head>
+        <title>ゼミ紹介 | 岩尾俊兵研究会</title>
+        <meta
+          name="description"
+          content="慶應義塾大学商学部 岩尾俊兵研究会のゼミ紹介。研究テーマ、活動スタイル、このゼミで得られることなどを詳しく紹介します。"
+        />
+        <meta property="og:title" content="ゼミ紹介 | 岩尾俊兵研究会" />
+        <meta
+          property="og:description"
+          content="研究テーマ、活動スタイル、このゼミで得られることなどを詳しく紹介します。"
+        />
+        <meta property="og:type" content="website" />
+        <link rel="canonical" href="https://iwao-lab-website.vercel.app/about" />
+      </Head>
+      <Layout>
       <section className="section section-dark">
         <SectionTitle
           title="ゼミ紹介"
@@ -97,6 +113,7 @@ const About: NextPage = () => {
         </div>
       </section>
     </Layout>
+    </>
   );
 };
 
