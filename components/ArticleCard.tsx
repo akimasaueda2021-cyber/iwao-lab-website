@@ -14,11 +14,30 @@ const ArticleCard = ({ report }: ArticleCardProps) => {
   return (
     <Link href={`/reports/${report.slug}`}>
       <article className="card">
+        {report.thumbnailUrl && (
+          <div className="card-image">
+            <img src={report.thumbnailUrl} alt={report.title} />
+          </div>
+        )}
         <div className="card-meta">
           <span>{report.category}</span>・<span>{date}</span>
         </div>
         <h3 className="card-title">{report.title}</h3>
         <p className="card-summary">{report.summary}</p>
+        {report.tags && report.tags.length > 0 && (
+          <div className="card-tags">
+            {report.tags.map((tag, idx) => (
+              <Link
+                key={idx}
+                href={`/reports?tag=${encodeURIComponent(tag)}`}
+                onClick={(e) => e.stopPropagation()}
+                className="card-tag"
+              >
+                {tag}
+              </Link>
+            ))}
+          </div>
+        )}
         <span
           style={{
             marginTop: "0.3rem",

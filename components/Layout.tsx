@@ -17,8 +17,9 @@ const Layout = ({ children }: LayoutProps) => {
           <nav className="nav" aria-label="メインナビゲーション">
             <Link href="/">HOME</Link>
             <Link href="/about">ABOUT</Link>
-            <Link href="/vision">VISION</Link>
+            <Link href="/entry">ENTRY</Link>
             <Link href="/reports">REPORTS</Link>
+            <Link href="/contact">CONTACT</Link>
           </nav>
         </div>
       </header>

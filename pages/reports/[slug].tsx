@@ -39,7 +39,7 @@ const ReportDetail: NextPage<Props> = ({ report, allReports }) => {
           name="description"
           content={report.summary || `${report.title} - 岩尾俊兵研究会の活動報告`}
         />
-        <meta name="keywords" content={report.tags.join(", ")} />
+        <meta name="keywords" content={`${report.tags.join(", ")}, 慶應 ゼミ 活動報告, 岩尾ゼミ`} />
         <meta property="og:title" content={`${report.title} | 岩尾俊兵研究会`} />
         <meta
           property="og:description"
@@ -48,10 +48,37 @@ const ReportDetail: NextPage<Props> = ({ report, allReports }) => {
         <meta property="og:type" content="article" />
         <meta property="article:published_time" content={report.publishedAt} />
         <meta property="article:author" content="岩尾俊兵研究会" />
+        <meta property="article:section" content={report.category} />
+        {report.tags.map((tag, idx) => (
+          <meta key={idx} property="article:tag" content={tag} />
+        ))}
         {report.thumbnailUrl && (
           <meta property="og:image" content={report.thumbnailUrl} />
         )}
         <link rel="canonical" href={`https://iwao-lab-website.vercel.app/reports/${report.slug}`} />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Article",
+              "headline": report.title,
+              "description": report.summary || `${report.title} - 岩尾俊兵研究会の活動報告`,
+              "datePublished": report.publishedAt,
+              "author": {
+                "@type": "Organization",
+                "name": "岩尾俊兵研究会",
+              },
+              "publisher": {
+                "@type": "Organization",
+                "name": "岩尾俊兵研究会",
+              },
+              ...(report.thumbnailUrl && {
+                "image": report.thumbnailUrl,
+              }),
+            }),
+          }}
+        />
       </Head>
       <Layout>
       <section className="section section-dark">
@@ -86,6 +113,20 @@ const ReportDetail: NextPage<Props> = ({ report, allReports }) => {
             <div style={{ marginTop: "0.75rem" }}>
               <Link href="/reports" style={{ color: "#18CCFC" }}>一覧に戻る</Link>
             </div>
+
+            <div style={{ marginTop: "2rem", paddingTop: "2rem", borderTop: "1px solid rgba(255, 255, 255, 0.1)", textAlign: "center" }}>
+              <p style={{ color: "#d1d5db", marginBottom: "1.5rem" }}>
+                入ゼミを検討されている方は、ぜひ説明会・見学にご参加ください
+              </p>
+              <div style={{ display: "flex", gap: "1rem", justifyContent: "center", flexWrap: "wrap" }}>
+                <Link href="/entry">
+                  <button className="btn-primary">見学を予約する</button>
+                </Link>
+                <Link href="/contact">
+                  <button className="btn-secondary">質問する（24h以内返信）</button>
+                </Link>
+              </div>
+            </div>
           </article>
 
           {/* サイドバー */}
@@ -95,9 +136,14 @@ const ReportDetail: NextPage<Props> = ({ report, allReports }) => {
             </h3>
             <div className="tag-list" style={{ marginBottom: "1.2rem" }}>
               {report.tags.map((tag) => (
-                <span key={tag} className="tag">
+                <Link
+                  key={tag}
+                  href={`/reports?tag=${encodeURIComponent(tag)}`}
+                  className="tag"
+                  style={{ textDecoration: "none" }}
+                >
                   {tag}
-                </span>
+                </Link>
               ))}
             </div>
 

@@ -1,6 +1,7 @@
 import type { GetStaticProps, NextPage } from "next";
 import Head from "next/head";
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
+import { useRouter } from "next/router";
 import Layout from "../../components/Layout";
 import SectionTitle from "../../components/SectionTitle";
 import ArticleCard from "../../components/ArticleCard";
@@ -15,11 +16,22 @@ type Props = {
 };
 
 const ReportsIndex: NextPage<Props> = ({ reports, categories, years }) => {
+  const router = useRouter();
   const [category, setCategory] = useState("");
   const [year, setYear] = useState("");
   const [query, setQuery] = useState("");
+  const [tag, setTag] = useState("");
   const [page, setPage] = useState(1);
   const perPage = 10;
+
+  useEffect(() => {
+    if (router.isReady) {
+      const tagParam = router.query.tag as string;
+      if (tagParam) {
+        setTag(decodeURIComponent(tagParam));
+      }
+    }
+  }, [router.isReady, router.query]);
 
   const filtered = useMemo(() => {
     return reports.filter((r) => {
@@ -28,15 +40,16 @@ const ReportsIndex: NextPage<Props> = ({ reports, categories, years }) => {
 
       const matchCategory = category ? r.category === category : true;
       const matchYear = year ? y === year : true;
+      const matchTag = tag ? r.tags.includes(tag) : true;
       const lowerQuery = query.toLowerCase();
       const matchQuery = lowerQuery
         ? r.title.toLowerCase().includes(lowerQuery) ||
           r.summary.toLowerCase().includes(lowerQuery)
         : true;
 
-      return matchCategory && matchYear && matchQuery;
+      return matchCategory && matchYear && matchTag && matchQuery;
     });
-  }, [category, year, query, reports]);
+  }, [category, year, tag, query, reports]);
 
   const totalPages = Math.ceil(filtered.length / perPage) || 1;
   const pageSafe = Math.min(page, totalPages);
@@ -64,12 +77,13 @@ const ReportsIndex: NextPage<Props> = ({ reports, categories, years }) => {
         <title>活動報告 | 岩尾俊兵研究会</title>
         <meta
           name="description"
-          content="岩尾俊兵研究会の活動報告。イベント・研究発表・メディア掲載などの活動を、プレスリリース形式でお届けします。"
+          content="岩尾俊兵研究会の活動報告。イベント・研究発表・メディア掲載・ゲスト講演などの活動を、プレスリリース形式でお届けします。"
         />
+        <meta name="keywords" content="慶應 ゼミ 活動報告,岩尾ゼミ イベント,慶應 ゼミ ゲスト講演,企業再生 ワークショップ" />
         <meta property="og:title" content="活動報告 | 岩尾俊兵研究会" />
         <meta
           property="og:description"
-          content="イベント・研究発表・メディア掲載などの活動を、プレスリリース形式でお届けします。"
+          content="イベント・研究発表・メディア掲載・ゲスト講演などの活動を、プレスリリース形式でお届けします。"
         />
         <meta property="og:type" content="website" />
         <link rel="canonical" href="https://iwao-lab-website.vercel.app/reports" />
@@ -80,6 +94,31 @@ const ReportsIndex: NextPage<Props> = ({ reports, categories, years }) => {
           title="活動報告"
           subtitle="イベント・研究発表・メディア掲載などの活動を、プレスリリース形式でお届けします。"
         />
+
+        {tag && (
+          <div style={{ marginBottom: "1rem", padding: "0.75rem 1rem", backgroundColor: "#1a1a1a", borderRadius: "0.5rem", border: "1px solid rgba(24, 204, 252, 0.3)" }}>
+            <span style={{ color: "#d1d5db" }}>タグでフィルタ: </span>
+            <span className="tag" style={{ marginLeft: "0.5rem" }}>{tag}</span>
+            <button
+              onClick={() => {
+                setTag("");
+                router.push("/reports", undefined, { shallow: true });
+              }}
+              style={{
+                marginLeft: "0.5rem",
+                padding: "0.2rem 0.5rem",
+                fontSize: "0.75rem",
+                backgroundColor: "transparent",
+                color: "#9ca3af",
+                border: "1px solid rgba(255, 255, 255, 0.2)",
+                borderRadius: "999px",
+                cursor: "pointer",
+              }}
+            >
+              ×
+            </button>
+          </div>
+        )}
 
         <FilterBar
           category={category}
